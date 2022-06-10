@@ -51,7 +51,7 @@ jobs:
           restore-keys: |
             v3-test-${{ runner.os }}-
 
-      - run: cd build/tools && go generate
+      - run: go generate
       - run: .gobincache/golangci-lint run
       - run: go test -race ./...
 
