@@ -9,10 +9,10 @@ package chanq
 //   q.Enqueue([]byte(`two`))
 //   for {
 //     select {
-//     case q.C <- q.Elem: // Works only when queue is not empty.
-//       q.Dequeue()
 //     case data := <-in: // E.g.: forward from in to out without blocking.
 //       q.Enqueue(data)
+//     case q.C <- q.Elem: // Works only when queue is not empty.
+//       q.Dequeue()
 //     }
 //   }
 type Queue[T any] struct {
@@ -46,8 +46,8 @@ func (q *Queue[T]) Enqueue(elem T) {
 // each successful sent of q.Elem into q.C. If queue will became empty
 // after this call it will block next attempt to send into q.C.
 func (q *Queue[T]) Dequeue() {
-	copy(q.Queue, q.Queue[1:])
-	q.Queue = q.Queue[:len(q.Queue)-1]
+	q.Queue = q.Queue[1:]
+
 	if len(q.Queue) == 0 {
 		q.C = nil
 	} else {

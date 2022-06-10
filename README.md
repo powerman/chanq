@@ -6,6 +6,10 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/powerman/chanq)](https://goreportcard.com/report/github.com/powerman/chanq)
 [![Release](https://img.shields.io/github/v/release/powerman/chanq)](https://github.com/powerman/chanq/releases/latest)
 
+## Performance
+
+About 1.5-1.7 times slower than sending to a blocking channel.
+
 ## Example
 
 ```go
@@ -15,10 +19,10 @@ q.Enqueue([]byte(`one`))
 q.Enqueue([]byte(`two`))
 for {
     select {
-    case q.C <- q.Elem: // Works only when queue is not empty.
-        q.Dequeue()
     case data := <-in: // E.g.: forward from in to out without blocking.
         q.Enqueue(data)
+    case q.C <- q.Elem: // Works only when queue is not empty.
+        q.Dequeue()
     }
 }
 ```
