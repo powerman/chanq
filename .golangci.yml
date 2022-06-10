@@ -1120,18 +1120,18 @@ linters-settings:
   thelper:
     # The following configurations enable all checks.
     # All checks are enabled by default.
-    #test:
-    #  first: true
+    test:
+     first: true
     #  name: true
-    #  begin: true
-    #benchmark:
-    #  first: true
-    #  name: true
-    #  begin: true
-    #tb:
-    #  first: true
-    #  name: true
-    #  begin: true
+     begin: true
+    benchmark:
+     first: true
+     name: true
+     begin: true
+    tb:
+     first: true
+     name: true
+     begin: true
 
   unparam:
     # Inspect exported functions.
