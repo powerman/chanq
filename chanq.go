@@ -3,18 +3,18 @@ package chanq
 
 // Queue is an outgoing queue for channel to use in select case.
 //
-//   out := make(chan []byte) // Usually not buffered, with blocking send.
-//   q := NewQueue(out)
-//   q.Enqueue([]byte(`one`))
-//   q.Enqueue([]byte(`two`))
-//   for {
-//     select {
-//     case data := <-in: // E.g.: forward from in to out without blocking.
-//       q.Enqueue(data)
-//     case q.C <- q.Elem: // Works only when queue is not empty.
-//       q.Dequeue()
-//     }
-//   }
+//	out := make(chan []byte) // Usually not buffered, with blocking send.
+//	q := NewQueue(out)
+//	q.Enqueue([]byte(`one`))
+//	q.Enqueue([]byte(`two`))
+//	for {
+//	  select {
+//	  case data := <-in: // E.g.: forward from in to out without blocking.
+//	    q.Enqueue(data)
+//	  case q.C <- q.Elem: // Works only when queue is not empty.
+//	    q.Dequeue()
+//	  }
+//	}
 type Queue[T any] struct {
 	C     chan<- T // Use only this way: q.C <- q.Elem.
 	Elem  T        // Use only this way: q.C <- q.Elem.

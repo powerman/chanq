@@ -81,7 +81,7 @@ func benchmarkSlow[T any](b *testing.B, newT func() T, f func(in, out chan T, do
 	go f(in, out, done)
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		in <- newT()
 		<-out
 	}
@@ -95,7 +95,7 @@ func benchmarkFast[T any](b *testing.B, newT func() T, f func(in, out chan T, do
 	in := make(chan T)
 	out := make(chan T)
 	go func() {
-		for i := 0; i < b.N; i++ {
+		for range b.N {
 			<-out
 		}
 		close(done)
@@ -104,7 +104,7 @@ func benchmarkFast[T any](b *testing.B, newT func() T, f func(in, out chan T, do
 	go f(in, out, done)
 
 	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
+	for range b.N {
 		in <- newT()
 	}
 	<-done
